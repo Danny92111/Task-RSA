@@ -1,0 +1,205 @@
+/* STYLING FOR MAIN COMPONENT --> APP */
+.main-header {
+	text-transform: uppercase;
+	font-weight: 500;
+	background-color: #ffffff;
+	padding: 20px 0 20px 0;
+	font-size: larger;
+	border-bottom: 1px solid black;
+}
+.container-flex--main {
+	margin-top: 30px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	padding-right: 50px;
+}
+.subHeader {
+	padding: 30px 0;
+	font-size: xxx-large;
+	font-weight: 500;
+}
+.container-flex--secondary {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	padding-right: 50px;
+}
+/* STYLING FOR DESCRIPTION COMPONENT */
+.description__container {
+	width: 50%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+}
+.description__title {
+	font-weight: 600;
+	font-size: xx-large;
+}
+.description__location,
+.description__reference,
+.description__startDate,
+.description__title {
+	margin: 10px 0;
+}
+
+/* STYLING FOR TOTAL COMPONENT */
+.total_container {
+	background-color: #ffffff;
+	border: 1px solid black;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	width: 45%;
+	padding: 50px 0;
+}
+.total__price {
+	font-size: xxx-large;
+	font-weight: 600;
+}
+.total__monthly-yearly {
+	font-weight: 500;
+}
+.total__button {
+	padding: 15px 0;
+	font-weight: 800;
+	cursor: pointer;
+	border-radius: 10px;
+	font-size: larger;
+}
+.total__price,
+.total__monthly-yearly,
+.total__description,
+.total__button {
+	text-align: center;
+	margin: 10px auto;
+	width: 50%;
+}
+.total__monthly-yearly,
+.total__price {
+	margin: 0 auto;
+}
+/* STYLING FOR OPTION COMPONENT */
+.option__container {
+	background-color: #ffffff;
+	border: 1px solid black;
+	padding: 20px;
+	height: 450px;
+	width: 45%;
+	margin-bottom: 30px;
+	position: relative;
+}
+.option__container-flex {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 30px;
+}
+.option__description {
+	font-size: large;
+	font-weight: 400;
+}
+.option__title {
+	font-weight: 400;
+}
+.option__price {
+	font-size: large;
+	text-align: end;
+}
+.option__button {
+	width: 250px;
+	cursor: pointer;
+	font-size: x-large;
+	font-weight: 600;
+	padding: 10px;
+	border-radius: 10px;
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	transition: transform 0.5s, background-color 0.5s, color 0.5s;
+	animation-name: addons;
+	animation-duration: 2s;
+}
+
+.option__selected {
+	background-color: #e91640;
+	color: #ffffff;
+}
+
+/* GENERAL CLASSES */
+.padding-left {
+	padding-left: 20px;
+}
+
+/*------------------------------------------------------------------------------ Media queries ----------------------------------------------------------------------------------- */
+@media only screen and (max-width: 920px) {
+	.total__price {
+		font-size: x-large;
+	}
+	.total__monthly-yearly {
+		font-size: medium;
+	}
+	.total__description {
+		font-size: small;
+	}
+	.total__button {
+		font-size: medium;
+		font-weight: 500;
+	}
+	.subHeader {
+		font-size: x-large;
+	}
+	.option__title {
+		font-size: large;
+	}
+	.option__price {
+		font-size: medium;
+	}
+	.option__description {
+		font-size: medium;
+	}
+	.option__button {
+		font-size: medium;
+		width: 150px;
+	}
+	.option__container {
+		height: 350px;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.total_container {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 999;
+		padding: 0;
+		height: fit-content;
+	}
+	.total__description {
+		margin: 0;
+	}
+	.description__container {
+		width: 100%;
+		text-align: center;
+	}
+	.option__container {
+		width: 80%;
+		margin: 0 auto 30px auto;
+	}
+	.subHeader {
+		text-align: center;
+	}
+	.container-flex--secondary {
+		padding-right: 0;
+		margin-bottom: 200px;
+	}
+	.option__button {
+		right: 50%;
+		transform: translateX(50%);
+	}
+	.container-flex--main {
+		padding-right: 0;
+	}
+}
