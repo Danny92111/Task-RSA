@@ -8,22 +8,25 @@
 	border-bottom: 1px solid black;
 }
 .container-flex--main {
-	margin-top: 30px;
+	width: 90%;
+	margin: 30px auto 0 auto;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
-	padding-right: 50px;
 }
 .subHeader {
+	width: 90%;
+	margin: 0 auto;
 	padding: 30px 0;
 	font-size: xxx-large;
 	font-weight: 500;
 }
 .container-flex--secondary {
+	width: 90%;
+	margin: 0 auto;
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
-	padding-right: 50px;
 }
 /* STYLING FOR DESCRIPTION COMPONENT */
 .description__container {
@@ -41,6 +44,25 @@
 .description__startDate,
 .description__title {
 	margin: 10px 0;
+}
+.type-animation {
+	display: block;
+	width: fit-content;
+	overflow: hidden;
+	/* border-right: 0.15em solid black; */
+	white-space: nowrap;
+	/* margin: 0 auto; */
+	letter-spacing: 2px;
+	animation: typing 5.5s linear;
+	padding-left: 5%;
+}
+@keyframes typing {
+	from {
+		width: 0;
+	}
+	to {
+		width: 100%;
+	}
 }
 
 /* STYLING FOR TOTAL COMPONENT */
@@ -74,10 +96,35 @@
 	text-align: center;
 	margin: 10px auto;
 	width: 50%;
+	transition: 0.5s;
 }
 .total__monthly-yearly,
 .total__price {
 	margin: 0 auto;
+}
+.Show-Total {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: fixed;
+	top: -60px;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #ffffff;
+	z-index: 999;
+	transition: 0.7s;
+	padding: 10px 5%;
+}
+.Show-Total--visible {
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	top: 0;
+}
+.Show-Total > h1 {
+	font-size: medium;
+}
+.Show-Total > img {
+	display: block;
 }
 /* STYLING FOR OPTION COMPONENT */
 .option__container {
@@ -108,7 +155,7 @@
 	text-align: end;
 }
 .option__button {
-	width: 250px;
+	width: 300px;
 	cursor: pointer;
 	font-size: x-large;
 	font-weight: 600;
@@ -123,15 +170,120 @@
 }
 
 .option__selected {
-	background-color: #e91640;
+	background-color: #dc3545;
 	color: #ffffff;
 }
 
-/* GENERAL CLASSES */
-.padding-left {
-	padding-left: 20px;
+/* MODAL Classes */
+.modal-container {
+	background-color: #50c878;
+	position: fixed;
+	bottom: 20px;
+	right: 5%;
+	padding: 10px;
+	border-radius: 15px;
+	width: 250px;
+	transition: 0.5s;
+}
+.modal-container--hidden {
+	right: -300px;
 }
 
+.modal-container > p {
+	color: #ffffff;
+	text-align: center;
+}
+.modal-container > p > span {
+	font-weight: 800;
+	font-size: large;
+}
+.GoTopPage {
+	position: fixed;
+	bottom: 20px;
+	left: 5%;
+	z-index: 999;
+	opacity: 0;
+	transition: 0.6s;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+}
+.GoTopPage-visible {
+	opacity: 1;
+}
+.GoTopPage > .css-i4bv87-MuiSvgIcon-root {
+	padding: 5px;
+	width: 100%;
+	height: 100%;
+	background-color: #f2f2f2;
+	border-radius: 50%;
+	box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+}
+.total__button:hover,
+.option__button:hover {
+	background-color: rgba(166, 166, 166, 0.7);
+}
+.option__selected:hover {
+	background-color: rgba(221, 20, 40, 0.7);
+}
+.address-invisible {
+	display: none;
+}
+.description__addressContainer {
+	display: flex;
+	align-items: center;
+}
+.Change-Btn {
+	cursor: pointer;
+	margin-left: 20px;
+	text-decoration: underline;
+	font-style: italic;
+	font-size: 10px;
+	color: #343a40;
+	font-weight: 700;
+	letter-spacing: 2px;
+	width: fit-content;
+}
+.Change-Btn::before {
+	content: "\2192";
+}
+.description__location {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	width: fit-content;
+}
+.description__location > span {
+	padding: 5px 10px 5px 0;
+	position: relative;
+}
+.description__location > span::before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 1px;
+	bottom: 0;
+	left: 0;
+	background-color: black;
+}
+
+.set-address {
+	margin-left: 30px;
+}
+.set-address > input {
+	border: none;
+	height: 30px;
+	box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+}
+.set-address > button {
+	cursor: pointer;
+	height: 30px;
+	padding: 0 10px;
+	border: none;
+	background-color: #f2f2f2;
+	color: black;
+	box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+}
 /*------------------------------------------------------------------------------ Media queries ----------------------------------------------------------------------------------- */
 @media only screen and (max-width: 920px) {
 	.total__price {
@@ -168,14 +320,45 @@
 	}
 }
 @media only screen and (max-width: 600px) {
+	.container-flex--main {
+		flex-flow: column;
+		display: unset;
+	}
 	.total_container {
-		position: fixed;
-		bottom: 0;
+		display: flex;
+		margin-top: 30px;
+		border: none;
+		position: sticky;
+		top: 0;
 		left: 0;
 		width: 100%;
 		z-index: 999;
 		padding: 0;
-		height: fit-content;
+		height: auto;
+	}
+	.sticky-stilying {
+		height: 66px;
+		display: flex;
+		flex-flow: row nowrap;
+	}
+	.sticky-stilying > .total__description {
+		display: none;
+	}
+	.sticky-stilying > .total__button {
+		font-size: small;
+		position: absolute;
+		right: 0;
+		margin: 0 5px 0 0;
+		width: auto;
+		padding: 10px 5px;
+	}
+	.sticky-stilying > .total__price,
+	.sticky-stilying > .total__monthly-yearly {
+		width: auto;
+		margin: 0 0 0 10px;
+	}
+	.sticky-stilying > .total__monthly-yearly {
+		font-size: small;
 	}
 	.total__description {
 		margin: 0;
@@ -193,7 +376,6 @@
 	}
 	.container-flex--secondary {
 		padding-right: 0;
-		margin-bottom: 200px;
 	}
 	.option__button {
 		right: 50%;
@@ -201,5 +383,32 @@
 	}
 	.container-flex--main {
 		padding-right: 0;
+	}
+	.Show-Total {
+		display: none;
+	}
+	.GoTopPage {
+		width: 45px;
+		height: 45px;
+	}
+	.GoTopPage > .css-i4bv87-MuiSvgIcon-root {
+		padding: 1.5px;
+	}
+	.modal-container {
+		width: 200px;
+	}
+	.description__addressContainer {
+		flex-flow: column;
+		margin-bottom: 20px;
+	}
+}
+@media only screen and (max-width: 450px) {
+	.set-address {
+		margin-left: 0;
+	}
+
+	.description__location {
+		flex-flow: column;
+		width: 100%;
 	}
 }

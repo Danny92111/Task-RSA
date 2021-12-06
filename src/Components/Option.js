@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function Option({
 	title,
@@ -6,15 +6,66 @@ function Option({
 	priceMonthly,
 	priceAnnually,
 	setGrandTotal,
-	grandTotal,
 	isMonthly,
+	setCountAddons,
 }) {
-	// toggle state of btn
+	// Store state of btn
 	const [btnToggle, setBtnToggle] = useState(false);
-	// get current Price (0 if not selected , actual price if selected)
+
+	// Store current Price (on btn click toggle between priceMonthly and -priceMonthly || on btn click toggle between priceAnnually and -priceAnnually)
 	const [currentPrice, setCurrentPrice] = useState(priceMonthly);
+
+	//  avoid initial render on UseEffect (useRef)
+	const firstRender = useRef(true);
+
+	useEffect(() => {
+		//  avoid initial render on UseEffect
+		if (firstRender.current) {
+			firstRender.current = false;
+			return;
+		}
+		// toggle between priceMonthly and priceAnnually
+		if (isMonthly) {
+			setCurrentPrice(priceMonthly);
+		} else {
+			setCurrentPrice(priceAnnually);
+		}
+		// Add the price to a grand total of addons
+		if (btnToggle && !isMonthly) {
+			setCurrentPrice(-priceAnnually);
+			setGrandTotal((grandTotal) => grandTotal + priceAnnually - priceMonthly);
+		} else if (btnToggle && isMonthly) {
+			setCurrentPrice(-priceMonthly);
+			setGrandTotal((grandTotal) => grandTotal - priceAnnually + priceMonthly);
+		}
+	}, [isMonthly]);
+	// Add addon price
+	const addCurentPrice = () => {
+		if (isMonthly) {
+			btnToggle
+				? setCurrentPrice(priceMonthly)
+				: setCurrentPrice(-priceMonthly);
+		} else {
+			btnToggle
+				? setCurrentPrice(priceAnnually)
+				: setCurrentPrice(-priceAnnually);
+		}
+	};
+	//change text of btn
+	const changeText = (e) => {
+		!btnToggle
+			? (e.target.innerHTML = "Remove")
+			: (e.target.innerHTML = "Select this extra");
+	};
+	// Toggle the btn
+	const toggleBtn = (input) => {
+		!input
+			? setCountAddons((countAddons) => countAddons + 1)
+			: setCountAddons((countAddons) => countAddons - 1);
+	};
+
 	return (
-		<div className="option__container">
+		<div data-testid="optionComponent" className="option__container">
 			<div className="option__container-flex">
 				<h1 className="option__title">{title}</h1>
 				<p className="option__price">
@@ -28,21 +79,12 @@ function Option({
 				onClick={(e) => {
 					//toggle the btn
 					setBtnToggle(!btnToggle);
-					//change text of btn
-					const changeText = (e) => {
-						!btnToggle
-							? (e.target.innerHTML = "Remove")
-							: (e.target.innerHTML = "Select this extra");
-					};
-					changeText(e);
-					// change isSelected var accordingly
-					const addCurentPrice = () => {
-						btnToggle
-							? setCurrentPrice(priceMonthly)
-							: setCurrentPrice(-priceMonthly);
-					};
+					toggleBtn(btnToggle);
+					// store the current price and add it to grandTotal
 					addCurentPrice();
-					setGrandTotal(grandTotal + currentPrice);
+					setGrandTotal((grandTotal) => grandTotal + currentPrice);
+					//change text of btn
+					changeText(e);
 				}}
 				className={`option__button ${btnToggle && "option__selected"}`}
 			>

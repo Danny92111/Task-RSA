@@ -1,19 +1,62 @@
-import React, { useState } from "react";
-import data from "../db.json";
+import React, { useState, useRef, useEffect } from "react";
+import Logo from "../Media/Logo.png";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
-function Total({ FinalPrice, setMonthly }) {
-	//get quote
-	let info = data.quote[0];
-	// store total value
+function Total({ FinalPrice, setMonthly, monthlyPrice, annualPrice }) {
+	// store value if monthly || annually is selected
 	const [monthlyTotal, setMonthlyTotal] = useState(true);
-	setMonthly(monthlyTotal);
+	// Pass testing for rendering the component
+	const firstRender = useRef(true);
+	//
+	useEffect(() => {
+		if (firstRender.current) {
+			firstRender.current = false;
+			return;
+		}
+		// change value if monthly || annually
+		setMonthly(monthlyTotal);
+	}, [monthlyTotal, setMonthly]);
+
+	// get height from Top of page to h1 Total price for the Total bar
+	const totalCostDOM = useRef(null);
+	const [offset, setOffset] = useState(0);
+	// Change text of total btn
+	const changeText = (e) => {
+		!monthlyTotal
+			? (e.target.innerHTML = "Switch to annually")
+			: (e.target.innerHTML = "Switch to monthly");
+	};
+	// Return Final Price
+	const returnPrice = (isMonthly, total, monthly, annual) => {
+		return isMonthly
+			? parseFloat(total).toFixed(2)
+			: (total - monthly + annual).toFixed(2);
+	};
+	useEffect(() => {
+		// get current scroll position
+		window.onscroll = () => {
+			setOffset(window.scrollY);
+		};
+	}, []);
+
 	return (
-		<div className="total_container">
-			<h1 className="total__price">
-				£
-				{monthlyTotal
-					? FinalPrice.toFixed(2)
-					: (FinalPrice - info.monthlyPrice + info.annualPrice).toFixed(2)}
+		<div
+			data-testid="totalComponent"
+			className={`total_container ${offset >= 282 && "sticky-stilying"}`}
+		>
+			<div className={`Show-Total ${offset > 250 && "Show-Total--visible"}`}>
+				<h1 data-testid="FinalPriceContainer">
+					Total Price £{" "}
+					{returnPrice(monthlyTotal, FinalPrice, monthlyPrice, annualPrice)}
+				</h1>
+				<img src={Logo} alt="Logo" width="60" height="30" />
+			</div>
+
+			<h1 ref={totalCostDOM} className="total__price">
+				£{" "}
+				{isNaN(FinalPrice)
+					? "0"
+					: returnPrice(monthlyTotal, FinalPrice, monthlyPrice, annualPrice)}
 			</h1>
 			<h2 className="total__monthly-yearly">
 				{monthlyTotal ? "per month" : "per annum"}
@@ -25,17 +68,20 @@ function Total({ FinalPrice, setMonthly }) {
 			<button
 				onClick={(e) => {
 					setMonthlyTotal(!monthlyTotal);
-					const changeText = (e) => {
-						!monthlyTotal
-							? (e.target.innerHTML = "Switch to annually")
-							: (e.target.innerHTML = "Switch to monthly");
-					};
 					changeText(e);
 				}}
 				className="total__button"
 			>
 				Switch to annual
 			</button>
+			<div
+				onClick={() => {
+					window.scrollTo({ top: 0, behavior: "smooth" });
+				}}
+				className={`GoTopPage ${offset > 250 && "GoTopPage-visible"}`}
+			>
+				<ArrowUpwardIcon />
+			</div>
 		</div>
 	);
 }
