@@ -1,4 +1,4 @@
-Following our previous discussion, this branch shows the updated version of the app with the necessary change implemented. Some of the changes include:
+Following our previous discussion, this branch shows the updated version of the app with the necessary changes implemented. Some of the changes include:
 
 1) Solved the logic regarding the total price(It correctly displays the total price with the addons included).
 1) Accessing the data from the mock-Api through the fetch() method.
